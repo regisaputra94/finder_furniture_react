@@ -1,10 +1,11 @@
 import React from "react";
 import styled from 'styled-components';
+import { connect } from 'react-redux'
+import { getProducts } from '../../store/actions/home';
 import logo from '../../logo.svg';
+import Header from '../../components/Header'
 
-export const WrapDivFlex = styled.div`
-  width: 35%;
-  overflow: hidden;
+export const Wrapper = styled.div`
 `
 
 class Home extends React.Component {
@@ -15,10 +16,15 @@ class Home extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.props.getProducts()
+  }
+
   render() {
     return (
       <>
-        <div className="App">
+        <Wrapper>
+          <Header/>
           <header className="App-header">
               <img src={logo} className="App-logo" alt="logo" />
               <p>
@@ -33,10 +39,21 @@ class Home extends React.Component {
               Learn React
               </a>
           </header>
-        </div>
+        </Wrapper>
       </>
     );
   }
 }
 
-export default Home;
+const mapStateToProps = (state) => {
+  return {
+    products: state.Home.products
+  }
+}
+const mapDispatchToProps = (dispatch)=> {
+  return {
+    getProducts: (products) => dispatch(getProducts(products))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)

@@ -1,14 +1,22 @@
-import { GET_LATEST_HOME } from '../../actions/home';
+import { LOADING_PRODUCT, SUCCESS_PRODUCT, ERROR_PRODUCT } from '../constant';
 
 const initialState = {
-  home: []
+  products: [],
+  loading: false,
+  error: false,
 }
 
-export const Home = (state = initialState, action) => {
+export const Home = (state = {...initialState}, action) => {
   switch (action.type) {
-    case GET_LATEST_HOME:
-      const latestHome = action.payload.home
-      return { ...state, home: latestHome }
+    case LOADING_PRODUCT:      
+      return { ...state, loading: true }
+
+    case SUCCESS_PRODUCT:
+      console.log('action ==>', action.data)
+      return { ...state, loading: false, products: action.data }
+
+    case ERROR_PRODUCT:
+      return { ...state, loading: false, error:true }
 
     default:
       return state
